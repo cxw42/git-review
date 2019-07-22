@@ -3,6 +3,7 @@ from __future__ import print_function
 
 COPYRIGHT = """\
 Copyright (C) 2011-2012 OpenStack LLC.
+Portions copyright (C) 2019 D3 Engineering, LLC.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -903,13 +904,24 @@ def assert_one_change(remote, branch, yes, have_hook):
         use_color = "--color=always"
     else:
         use_color = "--color=never"
-    cmd = ("git log %s --decorate --oneline HEAD --not --remotes=%s" % (
-           use_color, remote))
+
+    # Make sure the local refs are up to date
+    cmd = ("git fetch %s" % (remote))
     (status, output) = run_command_status(cmd)
     if status != 0:
         print("Had trouble running %s" % cmd)
         print(output)
         sys.exit(1)
+
+    # Check which commits aren't on the destination branch
+    cmd = ("git log %s --decorate --oneline HEAD --not refs/remotes/%s/%s" % (
+           use_color, remote, branch))
+    (status, output) = run_command_status(cmd)
+    if status != 0:
+        print("Had trouble running %s" % cmd)
+        print(output)
+        sys.exit(1)
+
     filtered = filter(None, output.split("\n"))
     output_lines = sum(1 for s in filtered)
     if output_lines == 1 and not have_hook:
