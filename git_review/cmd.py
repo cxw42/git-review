@@ -1489,6 +1489,10 @@ def _main():
     parser.add_argument("-f", "--finish", dest="finish", action="store_true",
                         help="Close down this branch and switch back to "
                              "master on successful submission")
+    parser.add_argument("--finish-now", dest="finish_now", action="store_true",
+                        help="Close down this branch and switch back to "
+                             "master (CAUTION: may discard changes not yet "
+                             "submitted to Gerrit)")
     parser.add_argument("-l", "--list", dest="list", action="count",
                         help="List available reviews for the current project, "
                         "if passed more than once, will show more information")
@@ -1635,6 +1639,10 @@ def _main():
 
     if not have_hook:
         set_hooks_commit_msg(remote, hook_file)
+
+    if options.finish_now and not options.dry:
+        finish_branch(branch)
+        return
 
     if options.setup:
         if options.finish and not options.dry:

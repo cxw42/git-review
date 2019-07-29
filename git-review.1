@@ -44,6 +44,8 @@
 .Op Fl \-reviewers Ar reviewer ...
 .Op Ar branch
 .Nm
+.Fl \-finish-now
+.Nm
 .Fl l
 .Nm
 .Fl \-version
@@ -194,6 +196,11 @@ on the command line.
 .It Fl \-use-pushurl
 Use the pushurl option for the origin remote rather than conventional
 separate Gerrit remotes.
+.It Fl \-finish-now
+Leave the current topic branch (e.g., created using 
+.Fl ( Ar -d )
+) and return to the master branch.  CAUTION: this will discard any
+changes from the topic branch not yet uploaded to Gerrit.
 .It Fl \-version
 Print the version number and exit.
 .El
