@@ -1499,6 +1499,10 @@ def _main():
     parser.add_argument("-y", "--yes", dest="yes", action="store_true",
                         help="Indicate that you do, in fact, understand if "
                              "you are submitting more than one patch")
+    parser.add_argument("-Y", "--very-yes", dest="very_yes", action="store_true",
+                        default=False,
+                        help="Don't even check to see if "
+                             "you are submitting more than one patch")
     parser.add_argument("-v", "--verbose", dest="verbose", action="store_true",
                         help="Output more information about what's going on")
 
@@ -1595,6 +1599,7 @@ def _main():
         else:
             remote = config['remote']
     yes = options.yes
+    very_yes = options.very_yes
     status = 0
 
     if options.track:
@@ -1654,7 +1659,8 @@ def _main():
             sys.exit(1)
         if not options.force_rebase and not undo_rebase():
             sys.exit(1)
-    assert_one_change(remote, branch, yes, have_hook)
+    if not very_yes:
+        assert_one_change(remote, branch, yes, have_hook)
 
     ref = "for"
 

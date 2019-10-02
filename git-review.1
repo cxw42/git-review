@@ -161,6 +161,8 @@ List the available reviews on the Gerrit server for this project.
 .It Fl y , Fl \-yes
 Indicate that you do, in fact, understand if you are submitting more than
 one patch.
+.It Fl Y , Fl \-very-yes
+Don't even check if you are submitting more than one patch.
 .It Fl v , Fl \-verbose
 Turns on more verbose output.
 .It Fl D , Fl \-draft
@@ -197,7 +199,7 @@ on the command line.
 Use the pushurl option for the origin remote rather than conventional
 separate Gerrit remotes.
 .It Fl \-finish-now
-Leave the current topic branch (e.g., created using 
+Leave the current topic branch (e.g., created using
 .Fl ( Ar -d )
 ) and return to the master branch.  CAUTION: this will discard any
 changes from the topic branch not yet uploaded to Gerrit.
